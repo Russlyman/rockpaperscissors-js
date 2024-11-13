@@ -28,6 +28,20 @@ document.addEventListener('DOMContentLoaded', function () {
     'highest-streak-score'
   );
 
+  // Get current streak score from local storage.
+  const currentStreakScoreLocal = localStorage.getItem('current-streak-score');
+  if (currentStreakScoreLocal) {
+    currentStreakScore = parseInt(currentStreakScoreLocal);
+  }
+  currentStreakScoreParagraph.innerText = `Current Streak: ${currentStreakScore}`;
+
+  // Get highest streak score from local storage.
+  const highestStreakScoreLocal = localStorage.getItem('highest-streak-score');
+  if (highestStreakScoreLocal) {
+    highestStreakScore = parseInt(highestStreakScoreLocal);
+  }
+  highestStreakScoreParagraph.innerText = `Highest Streak: ${highestStreakScore}`;
+
   function computerChoice() {
     const randomNumber = Math.floor(Math.random() * 3);
     computerChoiceParagraph.innerText = `Computer chose: ${choiceStrings[randomNumber]}`;
@@ -49,10 +63,12 @@ document.addEventListener('DOMContentLoaded', function () {
         outcomeText = 'You won!';
 
         currentStreakScore++;
+        localStorage.setItem('current-streak-score', currentStreakScore);
         currentStreakScoreParagraph.innerText = `Current Streak: ${currentStreakScore}`;
 
         if (currentStreakScore > highestStreakScore) {
           highestStreakScore = currentStreakScore;
+          localStorage.setItem('highest-streak-score', highestStreakScore);
           highestStreakScoreParagraph.innerText = `Highest Streak: ${highestStreakScore}`;
         }
 
@@ -66,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
         outcomeText = 'You lost!';
 
         currentStreakScore = 0;
+        localStorage.setItem('current-streak-score', '0');
         currentStreakScoreParagraph.innerText = `Current Streak: ${currentStreakScore}`;
 
         break;
